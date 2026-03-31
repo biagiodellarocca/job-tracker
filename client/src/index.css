@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+@font-face {
+	font-family: "MyFont";
+	src: url("../public/GeistMono-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "MyFont";
+	src: url("/fonts/GeistMono-Medium.woff2") format("woff2");
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: "MyFont";
+	src: url("/fonts/GeistMono-Bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+}
+
+@theme {
+	--color-primary-500: #2f2f2f;
+	--color-secondary-500: #ebf1e5;
+	--font-sans: "MyFont", sans-serif;
+}
+
+body {
+	@apply bg-secondary-500 text-primary-500 font-sans;
+}
+
+.button {
+	@apply flex items-center justify-center rounded-sm hover:bg-primary-500 hover:text-white transition-all hover:cursor-pointer;
+}
+
+.container {
+	@apply max-w-[800px] mx-auto border-1 border-primary-500 rounded-4xl p-10;
+}
