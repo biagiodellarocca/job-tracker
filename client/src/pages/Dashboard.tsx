@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-interface TypeApplication {
-	id: number;
-	jobTitle: string;
-	companyName: string;
-	status: string;
-}
+import Button from "../components/ui/Button";
+import Label from "../components/ui/Label";
+import { type TypeApplication } from "../types/types.js";
+import { IconRemove, IconEdit, IconEye } from "../components/ui/Icon";
 
 const Dashboard = () => {
 	const [applications, setApplications] = useState<TypeApplication[]>([]);
@@ -44,14 +41,31 @@ const Dashboard = () => {
 		navigate("/login");
 	};
 
-	const deleteApplication = () => {};
+	const deleteApplication = async (id: number) => {
+		const token = localStorage.getItem("token");
 
-	const updateApplication = () => {};
+		try {
+			await axios.delete(`http://localhost:9000/api/v1/applications/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			setApplications((prev) => prev.filter((item) => item.id !== id));
+		} catch (err: any) {
+			setError(err.response?.data || "Something went wrong");
+		}
+	};
 
-	const archiveApplication = () => {};
+	const editApplication = (id: number) => {
+		navigate(`/applications/${id}/edit`);
+	};
+
+	const openApplication = (id: number) => {
+		navigate(`/applications/${id}`);
+	};
 
 	return (
-		<div className="min-h-screen bg-gray-50 p-8">
+		<div className="min-h-screen p-8">
 			<div className="max-w-4xl mx-auto">
 				{/* Header */}
 				<div className="flex justify-between items-center mb-8">
@@ -60,7 +74,7 @@ const Dashboard = () => {
 					</h1>
 					<div className="flex gap-3">
 						<button
-							onClick={() => navigate("/new-application")}
+							onClick={() => navigate("/applications/add")}
 							className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
 						>
 							+ Add Application
@@ -85,44 +99,42 @@ const Dashboard = () => {
 				)}
 
 				{/* List */}
-				<ul className="flex flex-col gap-3">
+				<ul className="flex flex-col">
 					{applications.map(({ id, companyName, jobTitle, status }) => (
 						<li
 							key={id}
-							className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex justify-between items-center"
+							className="py-2 flex justify-between items-center border-t last:border-b"
 						>
-							<div>
-								<p className="font-semibold text-gray-900">
-									{companyName}
-								</p>
-								<p className="text-sm text-gray-500">{jobTitle}</p>
+							<div className="flex items-center gap-1">
+								<div className="w-35">
+									<Label variant={status}>{status}</Label>
+								</div>
+								<div>
+									<p className="text-sm font-semibold mt-2">
+										{companyName}
+									</p>
+									<p className="text-lg">{jobTitle}</p>
+								</div>
 							</div>
-							<div className="flex items-center gap-3">
-								<span
-									className={`text-xs font-medium px-3 py-1 rounded-full ${
-										status === "applied"
-											? "bg-blue-100 text-blue-700"
-											: status === "interview"
-												? "bg-yellow-100 text-yellow-700"
-												: status === "offer"
-													? "bg-green-100 text-green-700"
-													: "bg-red-100 text-red-700"
-									}`}
+							<div className="flex items-center gap-1">
+								<Button
+									variant="icon"
+									onClick={() => openApplication(id)}
 								>
-									{status}
-								</span>
-								<button
-									onClick={deleteApplication}
-									className="text-sm text-red-500 hover:text-red-700"
+									<IconEye />
+								</Button>
+								<Button
+									variant="icon"
+									onClick={() => editApplication(id)}
 								>
-									Remove
-								</button>
-								<button
-									onClick={updateApplication}
-									className="text-sm text-blue-500 hover:text-blue-700"
+									<IconEdit />
+								</Button>
+								<Button
+									variant="icon"
+									onClick={() => deleteApplication(id)}
 								>
-									Edit
-								</button>
+									<IconRemove />
+								</Button>
 							</div>
 						</li>
 					))}

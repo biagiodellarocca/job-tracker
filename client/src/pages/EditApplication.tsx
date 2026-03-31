@@ -1,22 +1,45 @@
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ApplicationForm from "../components/ui/ApplicationForm";
 import { type TypeNewApplication } from "../types/types.js";
 import Button from "../components/ui/Button.js";
 
-const NewApplication = () => {
+const EditApplication = () => {
+	const { id } = useParams();
 	const [applicationData, setApplicationData] = useState<TypeNewApplication>({} as TypeNewApplication);
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		setError("");
+		const fetchApplication = async () => {
+			const token = localStorage.getItem("token");
+
+			try {
+				const { data } = await axios.get(
+					`http://localhost:9000/api/v1/applications/${id}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
+				);
+				setApplicationData(data);
+			} catch (err: any) {
+				setError(err.response?.data || "Something went wrong");
+			}
+		};
+		fetchApplication();
+	}, [id]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const token = localStorage.getItem("token");
 
 		try {
-			await axios.post(
-				"http://localhost:9000/api/v1/applications",
+			await axios.put(
+				`http://localhost:9000/api/v1/applications/${id}`,
 				{
 					companyName: applicationData.companyName,
 					jobTitle: applicationData.jobTitle,
@@ -51,4 +74,4 @@ const NewApplication = () => {
 	);
 };
 
-export default NewApplication;
+export default EditApplication;
