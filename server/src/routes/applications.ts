@@ -40,20 +40,22 @@ applicationsRouter.get("/:id", async (req, res, next) => {
 });
 
 applicationsRouter.post("/", async (req, res, next) => {
-	const { companyName, jobTitle, url, status, notes } = req.body;
+	const { companyName, jobTitle, url, status, notes, location, date, type } =
+		req.body;
 	if (!companyName || !jobTitle)
-		return next(
-			new AppError("Company Name, Job Title required", 400),
-		);
+		return next(new AppError("Company Name, Job Title required", 400));
 	try {
 		const newApplication = await db
 			.insert(applications)
 			.values({
 				userId: req.userId,
-				companyName,
 				jobTitle,
-				url,
+				companyName,
 				status,
+				url,
+				location,
+				date,
+				type,
 				notes,
 			})
 			.returning();
@@ -67,23 +69,22 @@ applicationsRouter.post("/", async (req, res, next) => {
 applicationsRouter.put("/:id", async (req, res, next) => {
 	const id = Number(req.params.id);
 	if (isNaN(id)) return next(new AppError("Invalid ID", 400));
-	const { companyName, jobTitle, url, status, notes } = req.body;
+	const { companyName, jobTitle, url, status, notes, location, date, type } =
+		req.body;
 	if (!companyName || !jobTitle)
-		return next(
-			new AppError(
-				"Company Name, Job Title, required",
-				400,
-			),
-		);
+		return next(new AppError("Company Name, Job Title, required", 400));
 
 	try {
 		const updateApplication = await db
 			.update(applications)
 			.set({
-				companyName,
 				jobTitle,
-				url,
+				companyName,
 				status,
+				url,
+				location,
+				date,
+				type,
 				notes,
 			})
 			.where(

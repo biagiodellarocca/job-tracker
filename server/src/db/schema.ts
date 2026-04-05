@@ -11,10 +11,13 @@ export const users = pgTable("users", {
 export const applications = pgTable("applications", {
 	id: serial("id").primaryKey(),
 	userId: integer("userId").references(() => users.id),
-	companyName: text("companyName").notNull(),
 	jobTitle: text("jobTitle").notNull(),
-	url: text("url"),
+	companyName: text("companyName").notNull(),
 	status: text("status").notNull(),
+	url: text("url"),
+	location: text("location"),
+	date: text("date"),
+	type: text("type"),
 	notes: text("notes"),
 	createdAt: timestamp("createdAt").defaultNow(),
 });

@@ -8,6 +8,20 @@
       "when": 1774538304943,
       "tag": "0000_perfect_pete_wisdom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775033587810,
+      "tag": "0001_magenta_albert_cleary",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775034011881,
+      "tag": "0002_equal_revanche",
+      "breakpoints": true
     }
   ]
 }

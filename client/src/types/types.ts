@@ -8,6 +8,9 @@ export interface TypeNewApplication {
 	companyName: string;
 	status: ApplicationStatus;
 	url?: string;
+	location?: string;
+	date?: string;
+	type?: string;
 	notes?: string;
 }
 

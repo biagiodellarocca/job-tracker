@@ -1,33 +1,30 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ApplicationForm from "../components/ui/ApplicationForm";
+import api from "../lib/axios.js";
+import ApplicationForm from "../components/ui/ApplicationForm.js";
+import Header from "../components/ui/Header.js";
+import Loading from "../components/ui/Loading.js";
 import { type TypeNewApplication } from "../types/types.js";
-import Button from "../components/ui/Button.js";
 
 const EditApplication = () => {
 	const { id } = useParams();
-	const [applicationData, setApplicationData] = useState<TypeNewApplication>({} as TypeNewApplication);
+	const [applicationData, setApplicationData] = useState<TypeNewApplication>(
+		{} as TypeNewApplication,
+	);
 	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		setError("");
 		const fetchApplication = async () => {
-			const token = localStorage.getItem("token");
-
 			try {
-				const { data } = await axios.get(
-					`http://localhost:9000/api/v1/applications/${id}`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					},
-				);
+				const { data } = await api.get(`/applications/${id}`);
 				setApplicationData(data);
 			} catch (err: any) {
 				setError(err.response?.data || "Something went wrong");
+			} finally {
+				setLoading(false);
 			}
 		};
 		fetchApplication();
@@ -35,24 +32,18 @@ const EditApplication = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		const token = localStorage.getItem("token");
 
 		try {
-			await axios.put(
-				`http://localhost:9000/api/v1/applications/${id}`,
-				{
-					companyName: applicationData.companyName,
-					jobTitle: applicationData.jobTitle,
-					url: applicationData.url,
-					status: applicationData.status,
-					notes: applicationData.notes,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				},
-			);
+			await api.put(`/applications/${id}`, {
+				companyName: applicationData.companyName,
+				jobTitle: applicationData.jobTitle,
+				location: applicationData.location,
+				type: applicationData.type,
+				date: applicationData.date,
+				url: applicationData.url,
+				status: applicationData.status,
+				notes: applicationData.notes,
+			});
 			navigate("/dashboard");
 		} catch (err: any) {
 			setError(err.response?.data || "Something went wrong");
@@ -60,16 +51,18 @@ const EditApplication = () => {
 	};
 
 	return (
-		<div className="container">
-			<div className="flex justify-end">
-				<Button variant="primary" onClick={() => navigate("/dashboard")}>Back to the Dashboard</Button>
-			</div>
-			<ApplicationForm
-				handleSubmit={handleSubmit}
-				applicationData={applicationData}
-				setApplicationData={setApplicationData}
-				error={error}
-			/>
+		<div className="wrapper">
+			<Header title="Edit Application" dashboardButton={true} />
+			{loading ? (
+				<Loading />
+			) : (
+				<ApplicationForm
+					handleSubmit={handleSubmit}
+					applicationData={applicationData}
+					setApplicationData={setApplicationData}
+					error={error}
+				/>
+			)}
 		</div>
 	);
 };

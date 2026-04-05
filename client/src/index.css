@@ -2,37 +2,73 @@
 
 @font-face {
 	font-family: "MyFont";
-	src: url("../public/GeistMono-Regular.woff2") format("woff2");
+	src: url("../public/DMMono-Light.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: "MyFont";
-	src: url("/fonts/GeistMono-Medium.woff2") format("woff2");
-	font-weight: 600;
+	src: url("/public/DMMono-Regular.woff2") format("woff2");
+	font-weight: 500;
 	font-style: normal;
 }
 @font-face {
 	font-family: "MyFont";
-	src: url("/fonts/GeistMono-Bold.woff2") format("woff2");
+	src: url("/public/DMMono-Medium.woff2") format("woff2");
 	font-weight: bold;
 	font-style: normal;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @theme {
 	--color-primary-500: #2f2f2f;
 	--color-secondary-500: #ebf1e5;
 	--font-sans: "MyFont", sans-serif;
+	--animate-fade-in: fade-in 0.5s ease-in-out;
 }
 
-body {
-	@apply bg-secondary-500 text-primary-500 font-sans;
+@layer base {
+	body {
+		@apply bg-secondary-500 text-primary-500 p-10;
+	}
 }
 
-.button {
-	@apply flex items-center justify-center rounded-sm hover:bg-primary-500 hover:text-white transition-all hover:cursor-pointer;
-}
+@layer components {
+	/* Container */
+	.wrapper {
+		@apply max-w-6xl mx-auto border border-primary-500 rounded-4xl p-14 animate-fade-in;
+	}
+	.wrapper-small {
+		@apply max-w-xl mx-auto border border-primary-500 rounded-4xl px-10 pt-10 pb-12;
+	}
 
-.container {
-	@apply max-w-[800px] mx-auto border-1 border-primary-500 rounded-4xl p-10;
+	/* Button */
+	.button {
+		@apply flex items-center justify-center gap-2 font-bold text-sm uppercase cursor-pointer rounded-full outline-2 outline-transparent outline-dotted hover:outline-primary-500 transition-all;
+	}
+
+	/* Form */
+	.form-label {
+		@apply block mb-2 text-xs font-bold uppercase;
+	}
+	.form-input {
+		@apply bg-transparent text-lg font-bold border border-primary-500 rounded-full outline-none focus:ring-2 w-full px-4 py-2.5 transition-all placeholder:font-normal;
+	}
+	.form-select {
+		@apply bg-transparent text-lg font-bold border border-primary-500 rounded-full outline-none focus:ring-2 w-full px-4 py-2.5 placeholder:font-normal;
+	}
+	.form-textarea {
+		@apply bg-transparent text-lg font-bold border border-primary-500 rounded-3xl min-h-80 outline-none focus:ring-2 w-full px-4 py-2.5 resize-none placeholder:font-normal;
+	}
+	.form-submit {
+		@apply inline-block bg-primary-500 text-secondary-500 py-2 px-6 outline-2 outline-offset-0 outline-dotted hover:outline-offset-5 hover:outline-primary-500 uppercase cursor-pointer rounded-full transition-all;
+	}
 }

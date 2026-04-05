@@ -1,0 +1,1 @@
+ALTER TABLE "applications" ALTER COLUMN "type" DROP NOT NULL;

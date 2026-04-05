@@ -13,7 +13,7 @@ type TypeLabel = {
 const Label = ({ children, variant }: TypeLabel) => {
 	return (
 		<div
-			className={`inline-flex px-2 py-0.5 text-xs rounded-full bg-primary-500 text-secondary-500 uppercase`}
+			className={`inline-flex px-2.5 py-1 text-xs rounded-full bg-primary-500 text-secondary-500 uppercase`}
 		>
 			<span>{children}</span>
 		</div>
