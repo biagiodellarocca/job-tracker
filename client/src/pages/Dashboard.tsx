@@ -2,18 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/axios.js";
 import Button from "../components/ui/Button.js";
-import Label from "../components/ui/Label.js";
 import Loading from "../components/ui/Loading.js";
 import { formatDate } from "../utils/formatDate.js";
 import { type TypeApplication } from "../types/types.js";
-import {
-	IconRemove,
-	IconEdit,
-	IconOpen,
-	IconPlus,
-} from "../components/ui/Icon.js";
+import { IconPlus } from "../components/ui/Icon.js";
 import Header from "../components/ui/Header.js";
 import Chart from "../components/ui/Chart.js";
+import Wrapper from "../components/layout/Wrapper.js";
+import DashboardRow from "../components/ui/DashboardRow.js";
 
 const Dashboard = () => {
 	const [applications, setApplications] = useState<TypeApplication[]>([]);
@@ -35,23 +31,6 @@ const Dashboard = () => {
 
 		fetchApplications();
 	}, []);
-
-	const deleteApplication = async (id: number) => {
-		try {
-			await api.delete(`/applications/${id}`);
-			setApplications((prev) => prev.filter((item) => item.id !== id));
-		} catch (err: any) {
-			setError(err.response?.data || "Something went wrong");
-		}
-	};
-
-	const editApplication = (id: number) => {
-		navigate(`/applications/${id}/edit`);
-	};
-
-	const openApplication = (id: number) => {
-		navigate(`/applications/${id}`);
-	};
 
 	const chartData = [
 		{
@@ -89,11 +68,11 @@ const Dashboard = () => {
 			: 0;
 
 	return (
-		<div className="wrapper">
+		<Wrapper variant="big">
 			{/* Header */}
 			<Header title="Your Applications" logoutButton={true} />
 
-			<div className="grid grid-cols-[2fr_3fr_2fr] gap-5 mb-10">
+			<div className="grid grid-cols-[2fr_3fr_2fr] gap-5 mb-15">
 				<div className="border rounded-3xl p-6">
 					<h2 className="font-medium text-lg uppercase mb-8">Total</h2>
 					<p className="flex flex-col">
@@ -125,7 +104,13 @@ const Dashboard = () => {
 				<Loading />
 			) : (
 				<div>
-					<div className="mb-5">
+					<ul className="flex flex-col">
+						{applications.map((app) => (
+							<DashboardRow key={app.id} app={app} setApplications={setApplications} setError={setError} />
+						))}
+					</ul>
+					{error && <p className="text-red-500 mt-4">{error}</p>}
+					<div className="mt-7">
 						<Button
 							variant="normal"
 							onClick={() => navigate("/applications/add")}
@@ -134,52 +119,6 @@ const Dashboard = () => {
 							<span className="uppercase">Add Application</span>
 						</Button>
 					</div>
-					<ul className="flex flex-col">
-						{applications.map(
-							({
-								id,
-								companyName,
-								jobTitle,
-								status,
-								location,
-								type,
-							}) => (
-								<li
-									key={id}
-									className="grid grid-cols-[200px_auto_200px] py-4 border-t last:border-b"
-								>
-									<div>
-										<Label variant={status}>{status}</Label>
-									</div>
-									<div>
-										<p className="text-xs mb-1 uppercase">{`${companyName}${location ? " | " + location : ""}${type ? " | " + type : ""}`}</p>
-										<p className="text-xl">{jobTitle}</p>
-									</div>
-									<div className="flex items-center justify-end gap-1.5">
-										<Button
-											variant="icon"
-											onClick={() => openApplication(id)}
-										>
-											<IconOpen />
-										</Button>
-										<Button
-											variant="icon"
-											onClick={() => editApplication(id)}
-										>
-											<IconEdit />
-										</Button>
-										<Button
-											variant="icon"
-											onClick={() => deleteApplication(id)}
-										>
-											<IconRemove />
-										</Button>
-									</div>
-								</li>
-							),
-						)}
-					</ul>
-					{error && <p className="text-red-500 mt-4">{error}</p>}
 				</div>
 			)}
 
@@ -187,7 +126,7 @@ const Dashboard = () => {
 			{!loading && applications.length === 0 && (
 				<p className="mt-16">No applications yet. Add your first one!</p>
 			)}
-		</div>
+		</Wrapper>
 	);
 };
 

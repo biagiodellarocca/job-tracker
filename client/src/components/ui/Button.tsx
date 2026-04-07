@@ -11,7 +11,10 @@ type TypeButton = {
 
 const Button = ({ children, onClick, variant }: TypeButton) => {
 	return (
-		<button className={`button ${variants[variant]}`} onClick={onClick}>
+		<button
+			className={`flex items-center justify-center gap-2 font-bold text-sm uppercase cursor-pointer rounded-full outline-2 outline-transparent outline-dotted hover:outline-primary-500 transition-all ${variants[variant]}`}
+			onClick={onClick}
+		>
 			{children}
 		</button>
 	);

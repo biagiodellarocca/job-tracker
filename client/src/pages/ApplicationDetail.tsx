@@ -7,6 +7,7 @@ import Loading from "../components/ui/Loading.js";
 import { formatDate } from "../utils/formatDate.js";
 import { type TypeNewApplication } from "../types/types.js";
 import DetailRow from "../components/ui/DetailRow.js";
+import Wrapper from "../components/layout/Wrapper.js";
 
 const ApplicationDetail = () => {
 	const { id } = useParams();
@@ -34,7 +35,7 @@ const ApplicationDetail = () => {
 	}, [id]);
 
 	return (
-		<div className="wrapper">
+		<Wrapper variant="big">
 			<Header
 				title="Application Details"
 				editButton={Number(id)}
@@ -82,7 +83,7 @@ const ApplicationDetail = () => {
 					{error && <p className="text-red-500 mt-4">{error}</p>}
 				</>
 			)}
-		</div>
+		</Wrapper>
 	);
 };
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/axios.js";
 import Header from "../components/ui/Header";
+import Wrapper from "../components/layout/Wrapper.js";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const Login = () => {
 	};
 
 	return (
-		<div className="wrapper-small">
+		<Wrapper variant="small">
 			{/* Header */}
 			<Header title="Login" />
 			<form onSubmit={handleSubmit}>
@@ -72,7 +73,7 @@ const Login = () => {
 					Sign up
 				</a>
 			</p>
-		</div>
+		</Wrapper>
 	);
 };
 

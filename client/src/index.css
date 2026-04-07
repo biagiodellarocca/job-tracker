@@ -42,19 +42,6 @@
 }
 
 @layer components {
-	/* Container */
-	.wrapper {
-		@apply max-w-6xl mx-auto border border-primary-500 rounded-4xl p-14 animate-fade-in;
-	}
-	.wrapper-small {
-		@apply max-w-xl mx-auto border border-primary-500 rounded-4xl px-10 pt-10 pb-12;
-	}
-
-	/* Button */
-	.button {
-		@apply flex items-center justify-center gap-2 font-bold text-sm uppercase cursor-pointer rounded-full outline-2 outline-transparent outline-dotted hover:outline-primary-500 transition-all;
-	}
-
 	/* Form */
 	.form-label {
 		@apply block mb-2 text-xs font-bold uppercase;

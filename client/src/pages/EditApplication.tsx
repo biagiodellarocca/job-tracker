@@ -5,6 +5,7 @@ import ApplicationForm from "../components/ui/ApplicationForm.js";
 import Header from "../components/ui/Header.js";
 import Loading from "../components/ui/Loading.js";
 import { type TypeNewApplication } from "../types/types.js";
+import Wrapper from "../components/layout/Wrapper.js";
 
 const EditApplication = () => {
 	const { id } = useParams();
@@ -51,7 +52,7 @@ const EditApplication = () => {
 	};
 
 	return (
-		<div className="wrapper">
+		<Wrapper variant="big">
 			<Header title="Edit Application" dashboardButton={true} />
 			{loading ? (
 				<Loading />
@@ -63,7 +64,7 @@ const EditApplication = () => {
 					error={error}
 				/>
 			)}
-		</div>
+		</Wrapper>
 	);
 };
 

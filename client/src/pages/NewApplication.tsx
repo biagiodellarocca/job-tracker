@@ -4,6 +4,7 @@ import api from "../lib/axios.js";
 import ApplicationForm from "../components/ui/ApplicationForm.js";
 import Header from "../components/ui/Header.js";
 import { type TypeNewApplication } from "../types/types.js";
+import Wrapper from "../components/layout/Wrapper.js";
 
 const NewApplication = () => {
 	const [applicationData, setApplicationData] = useState<TypeNewApplication>(
@@ -29,7 +30,7 @@ const NewApplication = () => {
 	};
 
 	return (
-		<div className="wrapper">
+		<Wrapper variant="big">
 			<Header title="Add Application" dashboardButton={true} />
 			<ApplicationForm
 				handleSubmit={handleSubmit}
@@ -37,7 +38,7 @@ const NewApplication = () => {
 				setApplicationData={setApplicationData}
 				error={error}
 			/>
-		</div>
+		</Wrapper>
 	);
 };
 

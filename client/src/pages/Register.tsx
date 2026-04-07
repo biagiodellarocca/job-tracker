@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/axios.js";
 import Header from "../components/ui/Header.js";
+import Wrapper from "../components/layout/Wrapper.js";
 
 const Register = () => {
 	const [name, setName] = useState("");
@@ -26,7 +27,7 @@ const Register = () => {
 	};
 
 	return (
-		<div className="wrapper-small">
+		<Wrapper variant="small">
 			{/* Header */}
 			<Header title="Login" />
 			<form onSubmit={handleSubmit}>
@@ -87,7 +88,7 @@ const Register = () => {
 					Log in
 				</a>
 			</p>
-		</div>
+		</Wrapper>
 	);
 };
 
