@@ -19,6 +19,9 @@ const NewApplication = () => {
 			await api.post("/applications", {
 				companyName: applicationData.companyName,
 				jobTitle: applicationData.jobTitle,
+				location: applicationData.location,
+				type: applicationData.type,
+				date: applicationData.date,
 				url: applicationData.url,
 				status: applicationData.status,
 				notes: applicationData.notes,

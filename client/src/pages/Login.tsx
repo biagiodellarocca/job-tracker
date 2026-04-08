@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import api from "../lib/axios.js";
 import Header from "../components/ui/Header";
 import Wrapper from "../components/layout/Wrapper.js";
+import { IconEyeClose, IconEyeOpen } from "../components/ui/Icon.js";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ const Login = () => {
 						value={email}
 						onChange={(e) => setEmail(e.currentTarget.value)}
 						placeholder="email@address.com"
+						required
 					/>
 				</div>
 
@@ -48,17 +51,28 @@ const Login = () => {
 					<label htmlFor="password" className="form-label">
 						Password<sup>*</sup>
 					</label>
-					<input
-						type="password"
-						id="password"
-						className="form-input"
-						value={password}
-						onChange={(e) => setPassword(e.currentTarget.value)}
-						placeholder="******"
-					/>
+					<div className="relative">
+						<input
+							type={!showPassword ? "password" : "text"}
+							id="password"
+							className="form-input"
+							value={password}
+							onChange={(e) => setPassword(e.currentTarget.value)}
+							placeholder="******"
+							required
+						/>
+						<button
+							className="cursor-pointer absolute top-4 right-4"
+							type="button"
+							onClick={() => setShowPassword(!showPassword)}
+						>
+							{!showPassword ? <IconEyeClose /> : <IconEyeOpen />}
+						</button>
+					</div>
 				</div>
 
-				{error && <p>{error}</p>}
+				{error && <p className="text-xs text-error-500 font-bold mb-5">{error}</p>}
+
 				<button type="submit" className="form-submit">
 					Sign in
 				</button>

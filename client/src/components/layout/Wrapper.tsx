@@ -1,6 +1,7 @@
 const variants = {
-	small: "max-w-xl px-10 pt-10 pb-12",
-	big: "max-w-6xl p-14",
+	small: "max-w-xl border-primary-200 rounded-3xl pt-10 pb-12 my-5 md:my-15 md:px-10 md:border",
+	big: "max-w-7xl border-primary-200 rounded-3xl my-10 md:my-15 md:p-14 md:border",
+	wide: "max-w-7xl",
 };
 
 interface WrapperProps extends React.PropsWithChildren {
@@ -10,7 +11,7 @@ interface WrapperProps extends React.PropsWithChildren {
 const Wrapper = ({ variant, children }: WrapperProps) => {
 	return (
 		<div
-			className={`mx-auto border border-primary-500 rounded-4xl animate-fade-in  ${variants[variant]}`}
+			className={`mx-auto animate-fade-in ${variants[variant]}`}
 		>
 			{children}
 		</div>

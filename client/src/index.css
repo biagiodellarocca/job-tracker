@@ -29,15 +29,19 @@
 }
 
 @theme {
-	--color-primary-500: #2f2f2f;
-	--color-secondary-500: #ebf1e5;
+	--color-primary-100: rgba(47, 47, 47, 0.1);
+	--color-primary-200: rgba(47, 47, 47, 0.2);
+	--color-primary-500: rgba(47, 47, 47, 1);
+	--color-secondary-400: rgba(235, 241, 229, 0.95);
+	--color-secondary-500: rgba(235, 241, 229, 1);
+	--color-error-500: #d32f2f;
 	--font-sans: "MyFont", sans-serif;
 	--animate-fade-in: fade-in 0.5s ease-in-out;
 }
 
 @layer base {
 	body {
-		@apply bg-secondary-500 text-primary-500 p-10;
+		@apply bg-secondary-500 text-primary-500 px-5;
 	}
 }
 
@@ -47,13 +51,13 @@
 		@apply block mb-2 text-xs font-bold uppercase;
 	}
 	.form-input {
-		@apply bg-transparent text-lg font-bold border border-primary-500 rounded-full outline-none focus:ring-2 w-full px-4 py-2.5 transition-all placeholder:font-normal;
+		@apply bg-transparent text-base md:text-lg font-bold border border-primary-200 rounded-full outline-none focus:ring-2 w-full px-4 py-2.5 transition-all placeholder:font-normal;
 	}
 	.form-select {
-		@apply bg-transparent text-lg font-bold border border-primary-500 rounded-full outline-none focus:ring-2 w-full px-4 py-2.5 placeholder:font-normal;
+		@apply bg-transparent text-base md:text-lg font-bold border border-primary-200 rounded-full outline-none focus:ring-2 w-full px-4 py-2.5 placeholder:font-normal;
 	}
 	.form-textarea {
-		@apply bg-transparent text-lg font-bold border border-primary-500 rounded-3xl min-h-80 outline-none focus:ring-2 w-full px-4 py-2.5 resize-none placeholder:font-normal;
+		@apply bg-transparent text-base md:text-lg font-bold border border-primary-200 rounded-2xl min-h-80 outline-none focus:ring-2 w-full px-4 py-2.5 resize-none placeholder:font-normal;
 	}
 	.form-submit {
 		@apply inline-block bg-primary-500 text-secondary-500 py-2 px-6 outline-2 outline-offset-0 outline-dotted hover:outline-offset-5 hover:outline-primary-500 uppercase cursor-pointer rounded-full transition-all;

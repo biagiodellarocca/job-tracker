@@ -29,7 +29,7 @@ const Register = () => {
 	return (
 		<Wrapper variant="small">
 			{/* Header */}
-			<Header title="Login" />
+			<Header title="Register" />
 			<form onSubmit={handleSubmit}>
 				<div className="mb-6">
 					<label htmlFor="name" className="form-label">
@@ -73,7 +73,8 @@ const Register = () => {
 					/>
 				</div>
 
-				{error && <p>{error}</p>}
+				{error && <p className="text-xs text-error-500 font-bold mb-5">{error}</p>}
+
 				<button type="submit" className="form-submit">
 					Sign in
 				</button>

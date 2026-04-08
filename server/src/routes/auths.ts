@@ -23,7 +23,7 @@ authRouter.post("/register", async (req, res, next) => {
 			.returning();
 		const { password: _, ...props } = newUser[0];
 		res.status(201).json(props);
-	} catch {
+	} catch (err: any) {
 		next(new AppError("Internal server error", 500));
 	}
 });
@@ -34,8 +34,7 @@ authRouter.post("/login", async (req, res, next) => {
 		return next(new AppError("Email and Password required", 400));
 	try {
 		const user = await db.select().from(users).where(eq(users.email, email));
-		if (user.length === 0)
-			return next(new AppError(`No user with email ${email} found`, 401));
+		if (user.length === 0) return next(new AppError(`Email not found`, 401));
 
 		const isMatch = await bcrypt.compare(password, user[0].password);
 		if (!isMatch) return next(new AppError("Password incorrect", 400));

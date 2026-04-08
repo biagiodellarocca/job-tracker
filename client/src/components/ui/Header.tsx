@@ -1,6 +1,6 @@
 import Button from "./Button.js";
 import { useNavigate } from "react-router-dom";
-import { IconBack, IconEdit, IconExit } from "./Icon.js";
+import { IconDashboard, IconEdit, IconExit } from "./Icon.js";
 
 type TypeHeader = {
 	title: string;
@@ -18,25 +18,22 @@ const Header = ({ title, logoutButton, dashboardButton, editButton }: TypeHeader
 	};
 
 	return (
-		<div className="flex justify-between items-center mb-12">
-			<h1 className="text-4xl font-medium">{title}</h1>
-			<div className="flex gap-8">
+		<div className="flex justify-between items-start gap-10 mb-12 md:items-center">
+			<h1 className="text-2xl font-bold md:text-4xl">{title}</h1>
+			<div className="flex flex-col items-end gap-2 mt-1.5 md:mt-0 md:flex-row md:gap:8">
 				{editButton && (
-					<Button variant="normal" onClick={() => navigate(`/applications/${editButton}/edit`)}>
+					<Button title="Edit Application" variant="icon" onClick={() => navigate(`/applications/${editButton}/edit`)}>
 						<IconEdit />
-						<span>Edit Application</span>
 					</Button>
 				)}
 				{dashboardButton && (
-					<Button variant="normal" onClick={() => navigate("/dashboard")}>
-						<IconBack />
-						<span>Dashboard</span>
+					<Button title="Back to Dashboard" variant="icon" onClick={() => navigate("/dashboard")}>
+						<IconDashboard />
 					</Button>
 				)}
 				{logoutButton && (
-					<Button variant="normal" onClick={logout}>
+					<Button title="Logout" variant="icon" onClick={logout}>
 						<IconExit />
-						<span>Logout</span>
 					</Button>
 				)}
 			</div>

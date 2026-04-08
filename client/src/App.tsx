@@ -1,16 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import NewApplication from "./pages/NewApplication";
-import ApplicationDetail from "./pages/ApplicationDetail";
-import EditApplication from "./pages/EditApplication";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Homepage from "./pages/Homepage.js";
+import Login from "./pages/Login.js";
+import Register from "./pages/Register.js";
+import Dashboard from "./pages/Dashboard.js";
+import NewApplication from "./pages/NewApplication.js";
+import ApplicationDetail from "./pages/ApplicationDetail.js";
+import EditApplication from "./pages/EditApplication.js";
+import ProtectedRoute from "./components/auth/ProtectedRoute.js";
 
 const App = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
+				<Route path="/" element={<Homepage />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route

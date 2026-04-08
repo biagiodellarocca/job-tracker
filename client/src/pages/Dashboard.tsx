@@ -8,11 +8,19 @@ import { type TypeApplication } from "../types/types.js";
 import { IconPlus } from "../components/ui/Icon.js";
 import Header from "../components/ui/Header.js";
 import Chart from "../components/ui/Chart.js";
+import Filter from "../components/ui/Filter.js";
 import Wrapper from "../components/layout/Wrapper.js";
 import DashboardRow from "../components/ui/DashboardRow.js";
 
 const Dashboard = () => {
 	const [applications, setApplications] = useState<TypeApplication[]>([]);
+
+	const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+
+	const filteredApplications = applications.filter((app) =>
+		selectedStatus === null ? app : app.status === selectedStatus,
+	);
+
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
@@ -72,22 +80,26 @@ const Dashboard = () => {
 			{/* Header */}
 			<Header title="Your Applications" logoutButton={true} />
 
-			<div className="grid grid-cols-[2fr_3fr_2fr] gap-5 mb-15">
-				<div className="border rounded-3xl p-6">
-					<h2 className="font-medium text-lg uppercase mb-8">Total</h2>
+			<div className="grid grid-cols-1 gap-5 mb-15 md:grid-cols-[2fr_3fr_2fr]">
+				<div className="border border-primary-200 rounded-2xl p-4 md:p-6">
+					<h2 className="font-base text-sm tracking-wider uppercase mb-4 md:mb-8 md:text-base">
+						Total
+					</h2>
 					<p className="flex flex-col">
-						<span className="text-8xl mb-1">{applications.length}</span>
-						<span className="text-xl">{`${applications.length > 1 ? "Applications" : "Application"}`}</span>
+						<span className="text-6xl mb-1 md:text-8xl">{applications.length}</span>
+						<span className="text-xl md:text-2xl">{`${applications.length > 1 ? "Applications" : "Application"}`}</span>
 					</p>
 				</div>
-				<div className="border rounded-3xl p-6">
-					<h2 className="font-medium text-lg uppercase mb-5">
+				<div className="border border-primary-200 rounded-2xl p-4 md:p-6">
+					<h2 className="font-base text-sm tracking-wider uppercase mb-6 md:text-base">
 						Applications by Status
 					</h2>
 					<Chart data={chartData} />
 				</div>
-				<div className="border rounded-3xl p-6">
-					<h2 className="font-medium text-lg uppercase mb-8">Job Hunt</h2>
+				<div className="border border-primary-200 rounded-2xl p-4 md:p-6">
+					<h2 className="font-base text-sm tracking-wider uppercase mb-4 md:mb-8 md:text-base">
+						Job Hunt
+					</h2>
 					<p>
 						You've been job hunting for <strong>{days}</strong> days.
 					</p>
@@ -104,13 +116,23 @@ const Dashboard = () => {
 				<Loading />
 			) : (
 				<div>
-					<ul className="flex flex-col">
-						{applications.map((app) => (
-							<DashboardRow key={app.id} app={app} setApplications={setApplications} setError={setError} />
-						))}
-					</ul>
-					{error && <p className="text-red-500 mt-4">{error}</p>}
-					<div className="mt-7">
+					<Filter setSelectedStatus={setSelectedStatus} />
+					{filteredApplications.length > 0 ? (
+						<ul className="flex flex-col">
+							{filteredApplications.map((app) => (
+								<DashboardRow
+									key={app.id}
+									app={app}
+									setApplications={setApplications}
+									setError={setError}
+								/>
+							))}
+							{error && <p className="text-error-500 mt-4">{error}</p>}
+						</ul>
+					) : (
+						<div className="font-bold">No Applications found</div>
+					)}
+					<div className="mt-8">
 						<Button
 							variant="normal"
 							onClick={() => navigate("/applications/add")}

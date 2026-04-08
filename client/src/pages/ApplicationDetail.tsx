@@ -8,6 +8,7 @@ import { formatDate } from "../utils/formatDate.js";
 import { type TypeNewApplication } from "../types/types.js";
 import DetailRow from "../components/ui/DetailRow.js";
 import Wrapper from "../components/layout/Wrapper.js";
+import Link from "../components/ui/Link.js";
 
 const ApplicationDetail = () => {
 	const { id } = useParams();
@@ -45,7 +46,7 @@ const ApplicationDetail = () => {
 				<Loading />
 			) : (
 				<>
-					<div className="flex flex-col gap-8 mt-10">
+					<div className="flex flex-col gap-9 mt-10">
 						<DetailRow label="Company Name">
 							<span>{applicationData.companyName}</span>
 						</DetailRow>
@@ -59,7 +60,16 @@ const ApplicationDetail = () => {
 						)}
 						{applicationData.type && (
 							<DetailRow label="Type">
-								<span>{applicationData.type}</span>
+								<span className="capitalize">
+									{applicationData.type}
+								</span>
+							</DetailRow>
+						)}
+						{applicationData.status && (
+							<DetailRow label="Status">
+								<Label>
+									{applicationData.status}
+								</Label>
 							</DetailRow>
 						)}
 						{applicationData.date && (
@@ -67,11 +77,13 @@ const ApplicationDetail = () => {
 								<span>{formatDate(applicationData.date)}</span>
 							</DetailRow>
 						)}
-						{applicationData.status && (
-							<DetailRow label="Status">
-								<Label variant={applicationData.status}>
-									{applicationData.status}
-								</Label>
+						{applicationData.url && (
+							<DetailRow label="Job Posting URL">
+								<Link
+									url={applicationData.url}
+									title="Link to the Job"
+									variant="big"
+								/>
 							</DetailRow>
 						)}
 						{applicationData.notes && (
@@ -80,7 +92,7 @@ const ApplicationDetail = () => {
 							</DetailRow>
 						)}
 					</div>
-					{error && <p className="text-red-500 mt-4">{error}</p>}
+					{error && <p className="text-error-500 mt-4">{error}</p>}
 				</>
 			)}
 		</Wrapper>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import api from "../../lib/axios.js";
 import type { TypeApplication } from "../../types/types.js";
 import Button from "./Button.js";
@@ -14,6 +15,7 @@ const DashboardRow = ({
 	setApplications: React.Dispatch<React.SetStateAction<TypeApplication[]>>;
 	setError: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+	const [showRemove, setShowRemove] = useState(false);
 	const navigate = useNavigate();
 
 	const deleteApplication = async (id: number) => {
@@ -34,23 +36,36 @@ const DashboardRow = ({
 	};
 
 	return (
-		<li className="grid grid-cols-[200px_auto_200px] py-4 border-t last:border-b">
+		<li className="relative grid grid-cols-1 py-4 border-t border-primary-200 last:border-b md:grid-cols-[200px_auto_200px]">
 			<div>
-				<Label variant={app.status}>{app.status}</Label>
+				<Label>{app.status}</Label>
 			</div>
 			<div>
-				<p className="text-xs mb-1 uppercase">{`${app.companyName}${app.location ? " | " + app.location : ""}${app.type ? " | " + app.type : ""}`}</p>
-				<p className="text-xl">{app.jobTitle}</p>
+				<p className="text-xs mb-1 mt-4 uppercase md:mt-0">{`${app.companyName}${app.location ? " | " + app.location : ""}${app.type ? " | " + app.type : ""}`}</p>
+				<p className="text-lg md:text-xl">{app.jobTitle}</p>
 			</div>
-			<div className="flex items-center justify-end gap-1.5">
-				<Button variant="icon" onClick={() => openApplication(app.id)}>
+			<div className="flex items-center justify-center mt-2 absolute top-1 right-0 md:justify-end md:gap-1.5 md:mt-0 md:relative">
+				<Button title="Application Details" variant="icon" onClick={() => openApplication(app.id)}>
 					<IconOpen />
 				</Button>
-				<Button variant="icon" onClick={() => editApplication(app.id)}>
+				<Button title="Edit Application" variant="icon" onClick={() => editApplication(app.id)}>
 					<IconEdit />
 				</Button>
-				<Button variant="icon" onClick={() => deleteApplication(app.id)}>
+				<Button title="Remove Application" variant="icon" onClick={() => setShowRemove(true)}>
 					<IconRemove />
+				</Button>
+			</div>
+
+			<div
+				className={`absolute flex justify-center items-center gap-5 w-full h-full bg-secondary-400 transition-all ${showRemove ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+			>
+				<span>Are you sure?</span>
+
+				<Button variant="normal" onClick={() => deleteApplication(app.id)}>
+					<span>Yes</span>
+				</Button>
+				<Button variant="normal" onClick={() => setShowRemove(false)}>
+					<span>No</span>
 				</Button>
 			</div>
 		</li>
