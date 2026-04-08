@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 });
 
 // Error handling
-app.use((err, req, res, next) => {
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const statusCode = err.statusCode || 500;
 	const message = err.message || "Internal server error";
 	res.status(statusCode).send(message);
