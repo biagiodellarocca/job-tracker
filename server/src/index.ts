@@ -13,11 +13,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(
-	cors({
-		origin: "*",
-	}),
-);
+app.use(cors({ origin: "https://job-tracker-six-sigma.vercel.app" }));
 
 app.get("/", (req, res) => {
 	res.send("Welcome to the Job-Tracker-App!");
@@ -33,11 +29,18 @@ app.use((req, res, next) => {
 });
 
 // Error handling
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-	const statusCode = err.statusCode || 500;
-	const message = err.message || "Internal server error";
-	res.status(statusCode).send(message);
-});
+app.use(
+	(
+		err: any,
+		req: express.Request,
+		res: express.Response,
+		next: express.NextFunction,
+	) => {
+		const statusCode = err.statusCode || 500;
+		const message = err.message || "Internal server error";
+		res.status(statusCode).send(message);
+	},
+);
 
 app.listen(port, () => {
 	console.log(`App is listening to port http://localhost:${port}`);
