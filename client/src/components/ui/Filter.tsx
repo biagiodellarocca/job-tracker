@@ -1,4 +1,4 @@
-import { applicationStatus, type TypeApplication } from "../../types/types";
+import { applicationStatus } from "../../types/types";
 
 interface StatusProps {
 	setSelectedStatus: React.Dispatch<React.SetStateAction<string | null>>;
